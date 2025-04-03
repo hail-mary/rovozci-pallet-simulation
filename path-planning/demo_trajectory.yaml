@@ -1,0 +1,25 @@
+waypoints:
+  - name: "Start"
+    x: 0.0
+    y: 0.0
+    yaw: 0.0
+    curvature: 0.0
+    desired_velocity: 0.1
+  - name: "Mid"
+    x: 5.0
+    y: 2.0
+    yaw: 0.2
+    curvature: 0.05
+    desired_velocity: 0.15
+  - name: "Mid2"
+    x: 7.0
+    y: 5.0
+    yaw: 0.3
+    curvature: 0.05
+    desired_velocity: 0.2
+  - name: "Goal"
+    x: 10.0
+    y: 0.0
+    yaw: 0.0
+    curvature: 0.0
+    desired_velocity: 0.1
