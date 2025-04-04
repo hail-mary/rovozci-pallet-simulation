@@ -1,0 +1,433 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/shapes/protos/TexturedBoxShape.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/pallet/protos/WoodenPallet.proto"
+
+WorldInfo {
+  contactProperties [
+    ContactProperties {
+      coulombFriction [
+        8
+      ]
+      softCFM 1e-05
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.027259427756053556 0.02753617033762336 0.9992490595049615 1.561550419370328
+  position -0.3945208082428928 -12.074060972374294 1.3784854280751562
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+DEF FLOOR RectangleArena {
+  floorSize 20 20
+  floorAppearance Appearance {
+    texture DEF FLOOR_TEXTURE ImageTexture {
+      url [
+        "../rovozci_simulation/textures/concrete4.jpg"
+      ]
+    }
+  }
+}
+DEF WOZEYK Robot {
+  translation 0.08 -1.42 0.07
+  children [
+    WoodenPallet {
+      translation -0.31 -0.02 0.04
+      rotation 0 0 -0.9999999999999999 0
+      mass 10
+    }
+    DEF MOUNTED_VISUAL_SENSORS_POSE Pose {
+      translation -1.03 0 0.61
+    }
+    Pose {
+      translation -0.88 0 -0.12
+      children [
+        Solid {
+          translation -0.3 0 0.3
+          children [
+            SliderJoint {
+              jointParameters JointParameters {
+                position 0.05
+                maxStop 0.05
+              }
+              device [
+                DEF piston_sensor PositionSensor {
+                  name "rovozci_sensor_lifting"
+                }
+                DEF piston_motor LinearMotor {
+                  name "rovozci_motor_lifting"
+                }
+              ]
+              endPoint Solid {
+                translation 0 0 0.05
+                children [
+                  Pose {
+                    translation 0.32 0 -0.2
+                    children [
+                      CadShape {
+                        url [
+                          "../rovozci_simulation/meshes/noblelift/1-forks-C.dae"
+                        ]
+                      }
+                      Pose {
+                        translation 0.8 0.25 0.1
+                        children [
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                              axis 0 1 0
+                              minStop -0.3
+                              maxStop 0.3
+                            }
+                            endPoint Solid {
+                              rotation 0 1 0 0
+                              children [
+                                CadShape {
+                                  url [
+                                    "../rovozci_simulation/meshes/noblelift/2-wheelholder-left.dae"
+                                  ]
+                                }
+                                Pose {
+                                  translation 0.073 -0.002 -0.082
+                                  children [
+                                    HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        axis 0 1 0
+                                      }
+                                      endPoint Solid {
+                                        rotation 0 1 0 0
+                                        children [
+                                          CadShape {
+                                            url [
+                                              "../rovozci_simulation/meshes/noblelift/3-backwheel.dae"
+                                            ]
+                                          }
+                                        ]
+                                        name "backwheel_rubber2"
+                                        boundingObject Pose {
+                                          rotation 1 0 0 1.5707996938995747
+                                          children [
+                                            Cylinder {
+                                              height 0.1
+                                              radius 0.035
+                                            }
+                                          ]
+                                        }
+                                        physics Physics {
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                              name "backwheel_holder_left"
+                              boundingObject Group {
+                                children [
+                                  Pose {
+                                    translation 0.024 -0.002 -0.00977947
+                                    rotation 0 1 0 1.0471996938995747
+                                    children [
+                                      Box {
+                                        size 0.025 0.12 0.01
+                                      }
+                                    ]
+                                  }
+                                  Pose {
+                                    translation 0.055 0.055 -0.0530812
+                                    rotation 0 1 0 1.0472
+                                    children [
+                                      Box {
+                                        size 0.1 0.007 0.02
+                                      }
+                                    ]
+                                  }
+                                  Pose {
+                                    translation 0.055 -0.058 -0.0530812
+                                    rotation 0 1 0 1.0472
+                                    children [
+                                      Box {
+                                        size 0.1 0.007 0.02
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                              physics Physics {
+                              }
+                            }
+                          }
+                        ]
+                      }
+                      Pose {
+                        translation 0.8 -0.25 0.1
+                        children [
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                              axis 0 1 0
+                              minStop -0.3
+                              maxStop 0.3
+                            }
+                            endPoint Solid {
+                              rotation 0 0 1 3.141592653589793
+                              children [
+                                CadShape {
+                                  url [
+                                    "../rovozci_simulation/meshes/noblelift/2-wheelholder-right.dae"
+                                  ]
+                                  ccw FALSE
+                                }
+                                Pose {
+                                  translation -0.073 -0.002 -0.082
+                                  children [
+                                    HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        axis 0 1 0
+                                      }
+                                      endPoint Solid {
+                                        rotation 0 1 0 0
+                                        children [
+                                          CadShape {
+                                            url [
+                                              "../rovozci_simulation/meshes/noblelift/3-backwheel.dae"
+                                            ]
+                                          }
+                                        ]
+                                        name "backwheel_rubber1"
+                                        boundingObject Pose {
+                                          rotation 1 0 0 1.5707996938995747
+                                          children [
+                                            Cylinder {
+                                              height 0.1
+                                              radius 0.035
+                                            }
+                                          ]
+                                        }
+                                        physics Physics {
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                              name "backwheel_holder_right"
+                              boundingObject Group {
+                                children [
+                                  Pose {
+                                    translation -0.024 -0.002 -0.00977947
+                                    rotation 0 1 0 -1.0471996938995747
+                                    children [
+                                      Box {
+                                        size 0.025 0.12 0.01
+                                      }
+                                    ]
+                                  }
+                                  Pose {
+                                    translation -0.055 0.055 -0.0530812
+                                    rotation 0 1 0 -1.0472
+                                    children [
+                                      Box {
+                                        size 0.1 0.007 0.02
+                                      }
+                                    ]
+                                  }
+                                  Pose {
+                                    translation -0.055 -0.058 -0.0530812
+                                    rotation 0 1 0 -1.0472
+                                    children [
+                                      Box {
+                                        size 0.1 0.007 0.02
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                              physics Physics {
+                              }
+                            }
+                          }
+                        ]
+                      }
+                      Solid {
+                        translation -0.22 0 0.19
+                        children [
+                          Transform {
+                            translation -0.1 -2.81659e-17 0
+                            rotation 0 0 1 3.141592653589793
+                            scale 0.0007 0.0007 0.0005
+                            children [
+                              CadShape {
+                                url [
+                                  "../rovozci_simulation/meshes/noblelift/11-pist.obj"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                        name "pist"
+                      }
+                    ]
+                  }
+                ]
+                name "forks_body"
+                boundingObject Group {
+                  children [
+                    Pose {
+                      translation 0.13 0 0.1
+                      children [
+                        Box {
+                          size 0.16 0.5 0.45
+                        }
+                      ]
+                    }
+                    Pose {
+                      translation 0.75 0.25 -0.12
+                      children [
+                        Box {
+                          size 1.3 0.1 0.05
+                        }
+                      ]
+                    }
+                    Pose {
+                      translation 0.75 -0.25 -0.12
+                      children [
+                        Box {
+                          size 1.3 0.1 0.05
+                        }
+                      ]
+                    }
+                  ]
+                }
+                physics Physics {
+                }
+              }
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+                minStop -1.6
+                maxStop 1.6
+              }
+              device [
+                DEF steering_sensor PositionSensor {
+                  name "rovozci_sensor_steering"
+                }
+                DEF steering_motor RotationalMotor {
+                  name "rovozci_motor_steering"
+                  acceleration 1.57
+                  minPosition -1.6
+                  maxPosition 1.6
+                  maxTorque 10000
+                  sound ""
+                }
+              ]
+              endPoint DEF STEERING Solid {
+                translation 0 0 -0.1
+                children [
+                  Pose {
+                    translation -0.107 0 0.108
+                    rotation 0 1 0 -0.3927003061004253
+                    children [
+                      CadShape {
+                        url [
+                          "../rovozci_simulation/meshes/noblelift/4-handle.dae"
+                        ]
+                      }
+                    ]
+                  }
+                  Transform {
+                    scale 0.001 0.0012 0.001
+                    children [
+                      CadShape {
+                        url [
+                          "../rovozci_simulation/meshes/noblelift/9-bigwheel-holder.dae"
+                        ]
+                      }
+                    ]
+                  }
+                  Transform {
+                    translation 0 0 0.089
+                    rotation 0 0 1 3.141592653589793
+                    scale 0.0012 0.0012 0.0012
+                    children [
+                      CadShape {
+                        url [
+                          "../rovozci_simulation/meshes/noblelift/13-handle-joint-B.dae"
+                        ]
+                      }
+                    ]
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0 1 0
+                    }
+                    device [
+                      DEF wheel_sensor PositionSensor {
+                        name "rovozci_sensor_wheel"
+                      }
+                      DEF wheel_motor RotationalMotor {
+                        name "rovozci_motor_wheel"
+                        maxPosition 10000
+                        maxTorque 10000
+                      }
+                    ]
+                    endPoint Solid {
+                      rotation 0 1 0 0
+                      children [
+                        Pose {
+                          children [
+                            CadShape {
+                              url [
+                                "../rovozci_simulation/meshes/noblelift/8-bigwheel_B.dae"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                      name "frontwheel"
+                      boundingObject Pose {
+                        rotation 1 0 0 1.5707996938995747
+                        children [
+                          Cylinder {
+                            height 0.057
+                            radius 0.066
+                          }
+                        ]
+                      }
+                      physics Physics {
+                      }
+                    }
+                  }
+                ]
+                name "frontwheel_holder"
+                physics Physics {
+                }
+              }
+            }
+          ]
+          name "pist_vnejsek"
+          physics Physics {
+          }
+        }
+      ]
+    }
+  ]
+  name "rovozci"
+  physics Physics {
+    density -1
+    mass 100
+  }
+  controller "simulation_controller"
+  controllerArgs [
+    ""
+  ]
+  supervisor TRUE
+}
+DEF PALLET_GROUP Group {
+}
+DEF MARKERS_GROUP Group {
+}
