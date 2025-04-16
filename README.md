@@ -19,6 +19,12 @@
         <p><em>Figure 3: Pallet dimensions</em></p>
     </div>
 </div>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
+    <div style="text-align: center;">
+        <img src="images/webots_scene.jpg" alt="webots scene" width="250">
+        <p><em>Figure 4: webots simulation environment</em></p>
+    </div>
+</div>
 
 * W: 4 * D: 4 * H: 5 = 80 bricks in total.
 * each brick weights: 14.7 kg
