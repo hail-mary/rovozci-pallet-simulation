@@ -36,7 +36,7 @@ while robot.step(timestep) != -1:
     #steer_motor.setPosition(float('inf'))
     steer_motor.setPosition(angle)
     wheel_motor.setPosition(float('inf'))
-    wheel_motor.setVelocity(3.0)
+    wheel_motor.setVelocity(10.0)
     counter += 1
     print(counter, angle)
     # print('step')
