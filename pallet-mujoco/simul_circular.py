@@ -1,8 +1,12 @@
 import sys
 import time
 import math
-import tty
-import termios
+import platform
+if platform.system() == 'Windows':
+    import msvcrt
+else:
+    import tty
+    import termios
 from typing import Tuple
 
 import mujoco
@@ -28,15 +32,18 @@ def load_sim(model_path: str) -> Tuple[MjModel, MjData]:
 def wait_key() -> None:
     """
     Wait for a single keypress on stdin, without echo.
-    Works on Linux/macOS.
+    Works on both Windows and Unix-like systems.
     """
-    fd = sys.stdin.fileno()
-    old = termios.tcgetattr(fd)
-    try:
-        tty.setraw(fd)
-        sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old)
+    if platform.system() == 'Windows':
+        msvcrt.getch()
+    else:
+        fd = sys.stdin.fileno()
+        old = termios.tcgetattr(fd)
+        try:
+            tty.setraw(fd)
+            sys.stdin.read(1)
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
 
 def watch_circular(
