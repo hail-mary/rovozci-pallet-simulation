@@ -1,0 +1,574 @@
+<?xml version="1.0" ?>
+<mujoco model="pallet_bricks_column">
+  <!-- derive inertia from geometry -->
+  <compiler angle="degree" inertiafromgeom="true"/>
+
+  <!-- define textures and materials -->
+  <asset>
+    <!-- checkerboard texture -->
+    <texture name="checker" type="2d" builtin="checker"
+             rgb1="0.9 0.9 0.9" rgb2="0.2 0.2 0.2"
+             width="512" height="512"/>
+    <!-- floor uses checker -->
+    <material name="floor_mat"
+              texture="checker"
+              texrepeat="10 10"
+              specular="0.1"
+              shininess="0.5"/>
+    <!-- bricks stay red -->
+    <material name="brick_mat"
+              rgba="0.8 0.3 0.3 1"/>
+    <!-- new light‑brown pallet -->
+    <material name="pallet_mat"
+              rgba="0.8 0.6 0.4 1"/>
+  </asset>
+
+  <!-- physics options -->
+  <option gravity="0 0 -9.81"/>
+
+  <worldbody>
+    <!-- renamed default camera -->
+    <camera name="camera"
+            pos="0 -12 8"
+            euler="50 0 0"/>
+    
+    <!-- ground plane with checkerboard -->
+    <geom name="floor"
+          type="plane"
+          pos="0 0 0"
+          size="5 5 0.1"
+          material="floor_mat"/>
+
+    <body name="pallet"
+          pos="3 0 0.05">
+  <joint name="pallet_slide_x" type="slide" axis="1 0 0"/>
+  <joint name="pallet_slide_y" type="slide" axis="0 1 0"/>
+  <joint name="pallet_hinge_z" type="hinge" axis="0 0 1"/>
+        <geom name="pallet_geom"
+            type="box"
+            size="0.6 0.5 0.05"
+            density="500"
+            friction="0.65 0.005 0.0001"
+            material="pallet_mat"/>
+    </body>
+    
+    <body name="brick_0_0_0" pos="2.550 -0.375 0.2001">
+      <joint name="brick_0_0_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_0_1" pos="2.850 -0.375 0.2001">
+      <joint name="brick_0_1_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_0_2" pos="3.150 -0.375 0.2001">
+      <joint name="brick_0_2_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_0_3" pos="3.450 -0.375 0.2001">
+      <joint name="brick_0_3_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_1_0" pos="2.550 -0.125 0.2001">
+      <joint name="brick_0_4_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_1_1" pos="2.850 -0.125 0.2001">
+      <joint name="brick_0_5_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_1_2" pos="3.150 -0.125 0.2001">
+      <joint name="brick_0_6_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_1_3" pos="3.450 -0.125 0.2001">
+      <joint name="brick_0_7_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_2_0" pos="2.550 0.125 0.2001">
+      <joint name="brick_0_8_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_2_1" pos="2.850 0.125 0.2001">
+      <joint name="brick_0_9_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_2_2" pos="3.150 0.125 0.2001">
+      <joint name="brick_0_10_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_2_3" pos="3.450 0.125 0.2001">
+      <joint name="brick_0_11_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_3_0" pos="2.550 0.375 0.2001">
+      <joint name="brick_0_12_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_3_1" pos="2.850 0.375 0.2001">
+      <joint name="brick_0_13_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_3_2" pos="3.150 0.375 0.2001">
+      <joint name="brick_0_14_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_0_3_3" pos="3.450 0.375 0.2001">
+      <joint name="brick_0_15_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <!-- ...and similarly for layers k=1..4 (increment pos z by 0.2 each layer) -->
+    <!-- brick_1_0_0 at z=0.4001, brick_1_0_1 at z=0.4001, … up to brick_4_3_3 at z=1.0001 -->
+
+    <body name="brick_1_0_0" pos="2.550 -0.375 0.4001">
+      <joint name="brick_1_0_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_0_1" pos="2.850 -0.375 0.4001">
+      <joint name="brick_1_1_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_0_2" pos="3.150 -0.375 0.4001">
+      <joint name="brick_1_2_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_0_3" pos="3.450 -0.375 0.4001">
+      <joint name="brick_1_3_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_1_0" pos="2.550 -0.125 0.4001">
+      <joint name="brick_1_4_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_1_1" pos="2.850 -0.125 0.4001">
+      <joint name="brick_1_5_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_1_2" pos="3.150 -0.125 0.4001">
+      <joint name="brick_1_6_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_1_3" pos="3.450 -0.125 0.4001">
+      <joint name="brick_1_7_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_2_0" pos="2.550 0.125 0.4001">
+      <joint name="brick_1_8_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_2_1" pos="2.850 0.125 0.4001">
+      <joint name="brick_1_9_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_2_2" pos="3.150 0.125 0.4001">
+      <joint name="brick_1_10_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_2_3" pos="3.450 0.125 0.4001">
+      <joint name="brick_1_11_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_3_0" pos="2.550 0.375 0.4001">
+      <joint name="brick_1_12_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_3_1" pos="2.850 0.375 0.4001">
+      <joint name="brick_1_13_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_3_2" pos="3.150 0.375 0.4001">
+      <joint name="brick_1_14_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1_3_3" pos="3.450 0.375 0.4001">
+      <joint name="brick_1_15_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <!-- ...and similarly for layers k=1..4 (increment pos z by 0.2 each layer) -->
+    <!-- brick_1_0_0 at z=0.4001, brick_1_0_1 at z=0.4001, … up to brick_4_3_3 at z=1.0001 -->
+
+    <body name="brick_2_0_0" pos="2.550 -0.375 0.6001">
+      <joint name="brick_2_0_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_0_1" pos="2.850 -0.375 0.6001">
+      <joint name="brick_2_1_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_0_2" pos="3.150 -0.375 0.6001">
+      <joint name="brick_2_2_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_0_3" pos="3.450 -0.375 0.6001">
+      <joint name="brick_2_3_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_1_0" pos="2.550 -0.125 0.6001">
+      <joint name="brick_2_4_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_1_1" pos="2.850 -0.125 0.6001">
+      <joint name="brick_2_5_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_1_2" pos="3.150 -0.125 0.6001">
+      <joint name="brick_2_6_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_1_3" pos="3.450 -0.125 0.6001">
+      <joint name="brick_2_7_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_2_0" pos="2.550 0.125 0.6001">
+      <joint name="brick_2_8_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_2_1" pos="2.850 0.125 0.6001">
+      <joint name="brick_2_9_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_2_2" pos="3.150 0.125 0.6001">
+      <joint name="brick_2_10_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_2_3" pos="3.450 0.125 0.6001">
+      <joint name="brick_2_11_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_3_0" pos="2.550 0.375 0.6001">
+      <joint name="brick_2_12_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_3_1" pos="2.850 0.375 0.6001">
+      <joint name="brick_2_13_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_3_2" pos="3.150 0.375 0.6001">
+      <joint name="brick_2_14_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2_3_3" pos="3.450 0.375 0.6001">
+      <joint name="brick_2_15_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <!-- ...and similarly for layers k=1..4 (increment pos z by 0.2 each layer) -->
+    <!-- brick_1_0_0 at z=0.4001, brick_1_0_1 at z=0.4001, … up to brick_4_3_3 at z=1.0001 -->
+
+    <body name="brick_3_0_0" pos="2.550 -0.375 0.8001">
+      <joint name="brick_3_0_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_0_1" pos="2.850 -0.375 0.8001">
+      <joint name="brick_3_1_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_0_2" pos="3.150 -0.375 0.8001">
+      <joint name="brick_3_2_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_0_3" pos="3.450 -0.375 0.8001">
+      <joint name="brick_3_3_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_1_0" pos="2.550 -0.125 0.8001">
+      <joint name="brick_3_4_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_1_1" pos="2.850 -0.125 0.8001">
+      <joint name="brick_3_5_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_1_2" pos="3.150 -0.125 0.8001">
+      <joint name="brick_3_6_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_1_3" pos="3.450 -0.125 0.8001">
+      <joint name="brick_3_7_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_2_0" pos="2.550 0.125 0.8001">
+      <joint name="brick_3_8_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_2_1" pos="2.850 0.125 0.8001">
+      <joint name="brick_3_9_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_2_2" pos="3.150 0.125 0.8001">
+      <joint name="brick_3_10_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_2_3" pos="3.450 0.125 0.8001">
+      <joint name="brick_3_11_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_3_0" pos="2.550 0.375 0.8001">
+      <joint name="brick_3_12_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_3_1" pos="2.850 0.375 0.8001">
+      <joint name="brick_3_13_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_3_2" pos="3.150 0.375 0.8001">
+      <joint name="brick_3_14_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3_3_3" pos="3.450 0.375 0.8001">
+      <joint name="brick_3_15_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <!-- ...and similarly for layers k=1..4 (increment pos z by 0.2 each layer) -->
+    <!-- brick_1_0_0 at z=0.4001, brick_1_0_1 at z=0.4001, … up to brick_4_3_3 at z=1.0001 -->
+
+    <body name="brick_4_0_0" pos="2.550 -0.375 1.0001">
+      <joint name="brick_4_0_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_0_1" pos="2.850 -0.375 1.0001">
+      <joint name="brick_4_1_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_0_2" pos="3.150 -0.375 1.0001">
+      <joint name="brick_4_2_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_0_3" pos="3.450 -0.375 1.0001">
+      <joint name="brick_4_3_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_1_0" pos="2.550 -0.125 1.0001">
+      <joint name="brick_4_4_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_1_1" pos="2.850 -0.125 1.0001">
+      <joint name="brick_4_5_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_1_2" pos="3.150 -0.125 1.0001">
+      <joint name="brick_4_6_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_1_3" pos="3.450 -0.125 1.0001">
+      <joint name="brick_4_7_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_2_0" pos="2.550 0.125 1.0001">
+      <joint name="brick_4_8_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_2_1" pos="2.850 0.125 1.0001">
+      <joint name="brick_4_9_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_2_2" pos="3.150 0.125 1.0001">
+      <joint name="brick_4_10_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_2_3" pos="3.450 0.125 1.0001">
+      <joint name="brick_4_11_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_3_0" pos="2.550 0.375 1.0001">
+      <joint name="brick_4_12_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_3_1" pos="2.850 0.375 1.0001">
+      <joint name="brick_4_13_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_3_2" pos="3.150 0.375 1.0001">
+      <joint name="brick_4_14_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4_3_3" pos="3.450 0.375 1.0001">
+      <joint name="brick_4_15_free" type="free"/>
+      <geom type="box" size="0.15 0.125 0.10"
+            density="800" friction="0.65 0.005 0.0001"
+            material="brick_mat"/>
+    </body>
+    <!-- ...and similarly for layers k=1..4 (increment pos z by 0.2 each layer) -->
+    <!-- brick_1_0_0 at z=0.4001, brick_1_0_1 at z=0.4001, … up to brick_4_3_3 at z=1.0001 -->
+
+
+  </worldbody>
+
+<actuator>
+  <!-- drive X -->
+  <position
+    joint="pallet_slide_x"
+    ctrllimited="true"
+    ctrlrange="-inf inf"
+    kp="500"/>
+  <!-- drive Y -->
+  <position
+    joint="pallet_slide_y"
+    ctrllimited="true"
+    ctrlrange="-inf inf"
+    kp="500"/>
+  <!-- drive yaw -->
+  <position
+    joint="pallet_hinge_z"
+    ctrllimited="true"
+    ctrlrange="-inf inf"
+    kp="100"/>
+</actuator>
+
+</mujoco>

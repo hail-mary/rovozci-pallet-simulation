@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<mujoco model="pallet_bricks_column">
+  <!-- compiler: enable inertia from geometry -->
+  <compiler angle="degree" inertiafromgeom="true"/>
+
+  <!-- define brick material -->
+  <asset>
+    <material name="brick_mat" rgba="0.8 0.3 0.3 1"/>
+  </asset>
+
+  <!-- gravity -->
+  <option gravity="0 0 -9.81"/>
+
+  <worldbody>
+    <!-- ground plane -->
+    <geom name="floor" type="plane" pos="0 0 0" size="5 5 0.1"/>
+
+    <!-- sliding pallet -->
+    <body name="pallet" pos="0 0 0.05">
+      <joint name="pallet_slide" type="slide" axis="1 0 0"/>
+      <geom name="pallet_geom"
+            type="box"
+            size="0.6 0.5 0.05"
+            density="500"
+            friction="1 0.5 0.5"/>
+    </body>
+
+    <!-- single column of 5 dynamic bricks -->
+    <!-- brick half-sizes: 0.15, 0.125, 0.10 -->
+    <body name="brick_0" pos="0 0 0.20">
+      <joint name="brick_0_free" type="free"/>
+      <geom type="box"
+            size="0.15 0.125 0.10"
+            density="13000"
+            friction="0.8 0.5 0.5"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_1" pos="0 0 0.40">
+      <joint name="brick_1_free" type="free"/>
+      <geom type="box"
+            size="0.15 0.125 0.10"
+            density="13000"
+            friction="0.8 0.5 0.5"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_2" pos="0 0 0.60">
+      <joint name="brick_2_free" type="free"/>
+      <geom type="box"
+            size="0.15 0.125 0.10"
+            density="13000"
+            friction="0.8 0.5 0.5"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_3" pos="0 0 0.80">
+      <joint name="brick_3_free" type="free"/>
+      <geom type="box"
+            size="0.15 0.125 0.10"
+            density="13000"
+            friction="0.8 0.5 0.5"
+            material="brick_mat"/>
+    </body>
+    <body name="brick_4" pos="0 0 1.00">
+      <joint name="brick_4_free" type="free"/>
+      <geom type="box"
+            size="0.15 0.125 0.10"
+            density="13000"
+            friction="0.8 0.5 0.5"
+            material="brick_mat"/>
+    </body>
+  </worldbody>
+
+  <!-- actuator drives the pallet sliding joint -->
+  <actuator>
+    <motor joint="pallet_slide" gear="1"/>
+  </actuator>
+</mujoco>
