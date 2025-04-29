@@ -162,7 +162,7 @@ def follow_trajectory(
         print('x=', x, 'y=', y, 'theta=', psi)
 
         data.ctrl[0] = psi
-        data.ctrl[1] = np.
+        data.ctrl[1] = 5
         # data.ctrl[2] = psi
 
         # data.mocap_quat[mocap_id] = (qw, 0.0, 0.0, qz)
