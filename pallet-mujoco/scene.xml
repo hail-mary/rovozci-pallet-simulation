@@ -39,7 +39,7 @@
           <body name="bricks" pos="0.3 -0.375 0.25">
             <freejoint/>
             <body name="brick" pos="0 0 -0.025">
-              <geom type="box" size="0.15 0.125 0.10" density="700" material="brick_mat"/>
+              <geom type="box" size="0.15 0.125 0.10" density="700" material="brick_mat" /> <!-- margin="0"/ -->
             </body>
           </body>
         </replicate>
