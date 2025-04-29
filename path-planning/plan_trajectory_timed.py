@@ -54,8 +54,10 @@ def plan_velocity_profile(
         return [0.0] * path_length
     start_velocity = min(start_velocity, max_velocity)
     end_velocity = min(end_velocity, max_velocity)
-    if abs(start_velocity) < 0.1:
-        start_velocity = 0.1
+
+    #if abs(start_velocity) < 0.1:
+    #    start_velocity = 0.1
+    
     d_acc = (max_velocity - start_velocity) / accel
     d_dec = (max_velocity - end_velocity) / accel
     n_acc = round(d_acc / step_size)
