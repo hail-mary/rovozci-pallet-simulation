@@ -7,6 +7,7 @@ IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R20
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/pallet/protos/WoodenPallet.proto"
 
 WorldInfo {
+  basicTimeStep 1
   contactProperties [
     ContactProperties {
       coulombFriction [
@@ -17,70 +18,10 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.09567723874911409 0.06437855154280438 0.9933283787784358 1.9632423865699833
-  position -3.8792502422316284 -3.410082810446239 1.5637423091007383
+  orientation -0.09557741078582714 0.07884917664024468 0.9922941932162219 1.769638377162214
+  position 0.005736272682874688 -5.103307777606895 1.664956124165207
 }
-Solid {
-  translation -5.71 -0.4 0.27
-  rotation 0 0 1 1.5708003061004252
-  children [
-    TexturedBoxShape {
-      size 0.247 0.3 0.25
-    }
-  ]
-  boundingObject Box {
-    size 0.26 0.25 0.25
-  }
-  physics Physics {
-  }
-}
-Solid {
-  translation -5.409 -0.4 0.27
-  rotation 0 0 1 1.5708
-  children [
-    TexturedBoxShape {
-      size 0.247 0.3 0.25
-    }
-  ]
-  name "solid(1)"
-  boundingObject Box {
-    size 0.26 0.25 0.25
-  }
-  physics Physics {
-  }
-}
-Solid {
-  translation -5.11 -0.4 0.27
-  rotation 0 0 1 1.5708
-  children [
-    TexturedBoxShape {
-      size 0.247 0.3 0.25
-    }
-  ]
-  name "solid(2)"
-  boundingObject Box {
-    size 0.26 0.25 0.25
-  }
-  physics Physics {
-  }
-}
-Solid {
-  translation -4.81 -0.4 0.27
-  rotation 0 0 1 1.5708
-  children [
-    TexturedBoxShape {
-      size 0.247 0.3 0.25
-    }
-  ]
-  name "solid(3)"
-  boundingObject Box {
-    size 0.26 0.25 0.25
-  }
-  physics Physics {
-  }
-}
-TexturedBackground {
-}
+%PLACEHOLDER%
 TexturedBackgroundLight {
 }
 DEF FLOOR RectangleArena {
@@ -94,11 +35,10 @@ DEF FLOOR RectangleArena {
   }
 }
 DEF WOZEYK Robot {
-  translation -5 0 0.374459
+  translation 0 0 0.374902
   children [
     WoodenPallet {
-      translation -0.26 0 -0.37
-      rotation 0 0 -0.9999999999999999 0
+      translation -0.2 0 -0.37
       size 1.2 1 0.14
       mass 20
       locked TRUE
@@ -114,7 +54,7 @@ DEF WOZEYK Robot {
           children [
             SliderJoint {
               jointParameters JointParameters {
-                position 0.046579128676143944
+                position 0.046279512975470574
                 maxStop 0.05
               }
               device [
@@ -126,8 +66,8 @@ DEF WOZEYK Robot {
                 }
               ]
               endPoint Solid {
-                translation 1.3137560434584028e-05 0.0025173293105191785 0.04419839346827817
-                rotation 0.2760850589790432 -0.5563853353107636 0.783717040046768 0.0037806865686501336
+                translation -6.115148926771896e-05 0.00023336343098834256 0.04469508710802869
+                rotation -0.1899212194829803 -0.9345837610984146 0.3008041287636181 0.0014914349678051158
                 children [
                   Pose {
                     translation 0.32 0 -0.2
@@ -142,13 +82,13 @@ DEF WOZEYK Robot {
                         children [
                           HingeJoint {
                             jointParameters HingeJointParameters {
-                              position -0.3000272089889707
+                              position -0.3000377265608111
                               axis 0 1 0
                               minStop -0.3
                               maxStop 0.3
                             }
                             endPoint Solid {
-                              rotation 0 -1 0 0.30002720898897123
+                              rotation 0 -0.9999999999999999 0 0.3000377265608117
                               children [
                                 CadShape {
                                   url [
@@ -160,11 +100,11 @@ DEF WOZEYK Robot {
                                   children [
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        position 39.22313791447173
+                                        position 14.756903717312984
                                         axis 0 1 0
                                       }
                                       endPoint Solid {
-                                        rotation 0 1 0 1.5240260713942093
+                                        rotation 0 0.9999999999999999 0 2.1905331029538107
                                         children [
                                           CadShape {
                                             url [
@@ -232,13 +172,13 @@ DEF WOZEYK Robot {
                         children [
                           HingeJoint {
                             jointParameters HingeJointParameters {
-                              position -0.30004698891061754
+                              position -0.30003256848790605
                               axis 0 1 0
                               minStop -0.3
                               maxStop 0.3
                             }
                             endPoint Solid {
-                              rotation -0.1494613630702541 -5.274062248794851e-18 0.9887675666956224 3.141592653589793
+                              rotation -0.1494542338432315 -5.570413292061165e-18 0.9887686443179379 3.141592653589793
                               children [
                                 CadShape {
                                   url [
@@ -251,11 +191,11 @@ DEF WOZEYK Robot {
                                   children [
                                     HingeJoint {
                                       jointParameters HingeJointParameters {
-                                        position -40.04433215744879
+                                        position -14.693762527154476
                                         axis 0 1 0
                                       }
                                       endPoint Solid {
-                                        rotation 0 -1 0 2.3452203143712738
+                                        rotation 0 -0.9999999999999999 0 2.127391912795303
                                         children [
                                           CadShape {
                                             url [
@@ -374,7 +314,7 @@ DEF WOZEYK Robot {
             }
             HingeJoint {
               jointParameters HingeJointParameters {
-                position -0.07484933301007046
+                position 0.21630539387574435
                 axis 0 0 1
                 minStop -1.6
                 maxStop 1.6
@@ -393,8 +333,8 @@ DEF WOZEYK Robot {
                 }
               ]
               endPoint DEF STEERING Solid {
-                translation 0.023734373625685458 -0.0030417867916941012 -0.09641741941926316
-                rotation -0.005337253302231479 -0.05151609050000697 -0.9986579024604887 0.07495028463815614
+                translation 0.014680633931176258 0.002825924278786692 -0.097907714009663
+                rotation 0.0009232843216526077 -0.01114526297768151 0.9999374633741952 0.21631917266317915
                 children [
                   Pose {
                     translation -0.107 0 0.108
@@ -431,7 +371,7 @@ DEF WOZEYK Robot {
                   }
                   HingeJoint {
                     jointParameters HingeJointParameters {
-                      position 33.6359302664159
+                      position 11.212229632946535
                       axis 0 1 0
                     }
                     device [
@@ -445,7 +385,7 @@ DEF WOZEYK Robot {
                       }
                     ]
                     endPoint Solid {
-                      rotation 0 -1 0 4.063181576661622
+                      rotation 0 -1 0 1.354140981412638
                       children [
                         Pose {
                           children [

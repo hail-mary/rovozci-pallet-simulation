@@ -18,6 +18,7 @@ Optionally, it can plot the planned trajectory, original waypoints, and velocity
 
 import argparse
 import math
+import pandas as pd
 from typing import List, Tuple, Optional, Dict, Any
 
 import numpy as np
@@ -316,6 +317,16 @@ def load_waypoints_from_yaml(file_path: str) -> List[Waypoint]:
         waypoints.append(waypoint)
     return waypoints
 
+def save_trajectory(trajectory, waypoints, output):
+    print(trajectory)
+    accumdata = []
+    ndx = 0
+    for x, y, theta, velocity in zip(trajectory.x, trajectory.y, trajectory.theta, trajectory.velocity):
+        accumdata.append(dict(frame=ndx, x=x, y=y, theta=theta, velocity=velocity))
+        ndx += 1
+
+    df = pd.DataFrame(accumdata)
+    df.to_csv(output, index=False)
 
 def plot_trajectory(
     trajectory: PlannedTrajectory, waypoints: List[Waypoint]
@@ -404,6 +415,11 @@ def main() -> None:
         action="store_true",
         help="Plot the planned trajectory and velocity profile.",
     )
+    parser.add_argument(
+        "--output",
+        type=str,
+        help="Output csv file",
+    )
     args = parser.parse_args()
 
     waypoints = load_waypoints_from_yaml(args.yaml_file)
@@ -418,6 +434,9 @@ def main() -> None:
 
     print(f"Planned trajectory length: {trajectory.length:.2f} m")
     print("Number of points in trajectory:", len(trajectory.x))
+
+    if args.output:
+        save_trajectory(trajectory, waypoints, args.output)
 
     if args.plot:
         plot_trajectory(trajectory, waypoints)
