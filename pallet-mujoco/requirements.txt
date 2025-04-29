@@ -1,3 +1,4 @@
 mujoco
 mujoco-py
 numpy
+pandas
