@@ -50,6 +50,27 @@ def wait_key() -> None:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
 
+def check_initial_overlap(model: MjModel, data: MjData) -> None:
+    """
+    Perform one forward pass and report any contact penetrations.
+
+    Args:
+        model: MuJoCo model.
+        data: MuJoCo data.
+    """
+    mujoco.mj_forward(model, data)
+    ncon = data.ncon
+    if ncon == 0:
+        print("No initial contacts detected.")
+        return
+
+    print(f"Initial contacts: {ncon}")
+    for i in range(ncon):
+        dist = data.contact[i].dist
+        if dist < 0.0 and dist > 0.001:
+            print(f"  Contact {i}: penetration = {dist:.4f} m")
+
+
 def warmup_simulation(
     model: MjModel,
     data: MjData,
@@ -98,6 +119,10 @@ def follow_trajectory(
     # Override internal timestep
     model.opt.timestep = timestep
     viewer.sync()
+
+    print("Checking initial overlap...")
+    check_initial_overlap(model, data)
+    print("Done!")
 
     warmup_simulation(model, data, warmup_steps, timestep)
     viewer.sync()
