@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<mujoco model="pallet">
+  <!-- derive inertia from geometry -->
+  <compiler angle="degree" inertiafromgeom="true"/>
+
+  <!-- define textures and materials -->
+  <asset>
+    <!-- checkerboard texture -->
+    <texture name="checker" type="2d" builtin="checker"
+             rgb1="0.95 0.95 0.95" rgb2="0.3 0.3 0.3"
+             width="512" height="512"/>
+    <!-- floor uses checker -->
+    <material name="floor_mat"
+              texture="checker"
+              texrepeat="10 10"
+              specular="0.3"
+              shininess="0.7"
+              reflectance="0.2"/>
+    <!-- bricks stay red -->
+    <material name="brick_mat"
+              rgba="0.9 0.4 0.4 1"
+              specular="0.3"
+              shininess="0.7"/>
+    <!-- new light‑brown pallet -->
+    <material name="pallet_mat"
+              rgba="0.9 0.7 0.5 1"
+              specular="0.3"
+              shininess="0.7"/>
+  </asset>
+
+  <!-- physics options -->
+  <option gravity="0 0 -9.81"/>
+
+  <worldbody>
+    <!-- renamed default camera -->
+    <camera name="camera"
+            pos="0 -12 8"
+            euler="50 0 0"/>
+    
+    <!-- Add additional lights -->
+    <light name="light1" pos="0 0 10" dir="0 0 -1" diffuse="0.8 0.8 0.8" specular="0.8 0.8 0.8"/>
+    <light name="light2" pos="10 0 5" dir="-1 0 -0.5" diffuse="0.6 0.6 0.6" specular="0.6 0.6 0.6"/>
+    <light name="light3" pos="-10 0 5" dir="1 0 -0.5" diffuse="0.6 0.6 0.6" specular="0.6 0.6 0.6"/>
+    
+    <!-- ground plane with checkerboard -->
+    <geom name="floor"
+          type="plane"
+          pos="0 0 0"
+          size="10 10 0.1"
+          material="floor_mat"/>
+
+    <body name="pallet"
+          pos="0 0 0.08">
+        <geom name="pallet_geom"
+            type="box"
+            size="0.5 0.6 0.02"
+            density="1250"
+            friction="2.0 2.0 0.002"
+            material="pallet_mat"/>
+        <body name="beam center" pos="0 0 -0.03">
+          <geom name="beam_geom" type="box" size="0.065 0.6 0.05" density="1250" material="pallet_mat"/>
+        </body>
+        <body name="beam left" pos="-0.45 0 -0.03">
+          <geom name="beam_left_geom" type="box" size="0.05 0.6 0.05" density="1250" material="pallet_mat"/>
+        </body>
+        <body name="beam right" pos="0.45 0 -0.03">
+          <geom name="beam_right_geom" type="box" size="0.05 0.6 0.05" density="1250" material="pallet_mat"/>
+        </body>
+
+    </body>
+  </worldbody>
+
+
+</mujoco>

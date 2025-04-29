@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<mujoco model="pallet_jack_forward_drive">
+  <compiler angle="degree" inertiafromgeom="true"/>
+  <option gravity="0 0 -9.81"/>
+
+  <asset>
+    <material name="jack_mat" rgba="1 0 0 1" specular="0.2" shininess="0.3"/>
+    <texture name="checker" type="2d" builtin="checker"
+             rgb1="0.95 0.95 0.95" rgb2="0.3 0.3 0.3"
+             width="512" height="512"/>
+    <material name="floor_mat"
+              texture="checker"
+              texrepeat="10 10"
+              specular="0.3"
+              shininess="0.7"
+              reflectance="0.2"/>
+  </asset>
+  <default>
+    <geom density="500"/>
+  </default>
+
+  <worldbody>
+    <!-- 床 -->
+    <geom type="plane" size="10 10 0.1" material="floor_mat"/>
+
+    <!-- ルート：ここで旋回ジョイント -->
+    <body name="jack_root" pos="0 0 0">
+      <!-- ハンドル操作で向きを変える -->
+      <joint name="steer"   type="hinge" axis="0 0 1" range="-180 180"/>
+
+      <!-- ローカルX（前方）に沿ってスライド -->
+      <body name="jack_driving_frame" pos="0 0 0">
+        <joint name="drive" type="slide" axis="1 0 0" range="-inf inf"/>
+
+        <!-- ジオメトリ本体 -->
+        <body name="pallet_jack" pos="0 0 0.1">
+          <geom name="base" type="box" size="0.125 0.27 0.315"
+                pos="0 0 0.315" material="jack_mat"/>
+          <!-- フォーク等はここに… -->
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <!-- ステア（旋回） -->
+    <position joint="steer" ctrlrange="-90 90" kp="200"/>
+    <!-- 前進／後退 -->
+    <position joint="drive" ctrlrange="-2 2"  kp="500"/>
+    <!-- 必要ならフォーク昇降・回転もここに -->
+  </actuator>
+</mujoco>
+
+

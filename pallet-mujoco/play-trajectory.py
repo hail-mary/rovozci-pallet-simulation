@@ -9,10 +9,11 @@ else:
     import termios
 from typing import Tuple
 
+import pandas as pd
 import mujoco
 from mujoco import MjModel, MjData, mjtObj, mj_name2id
 from mujoco.viewer import launch_passive
-
+import numpy as np
 
 def load_sim(model_path: str) -> Tuple[MjModel, MjData]:
     """
@@ -107,7 +108,6 @@ def watch_circular(
         # throttle to real time
         elapsed = time.time() - start_wall
         if t > elapsed:
-            print('sleeping', t - elapsed)
             time.sleep(t - elapsed)
 
     print("Simulation done – close window to exit.")
@@ -115,7 +115,86 @@ def watch_circular(
         time.sleep(0.1)
     viewer.close()
 
+def follow_trajectory(
+    model: MjModel,
+    data: MjData,
+    df
+) -> None:
+    """
+    Move the mocap pallet around a circle, orienting it tangentially,
+    and log its kinematics.
+    """
+    items = []
+    for i, row in df.iterrows():
+        items.append(dict(index=i, x=row['x'], y=row['y'], theta=row['theta']))
+
+    # find body and mocap slot
+    body_id = mj_name2id(model, mjtObj.mjOBJ_BODY, "pallet")
+    mocap_id = model.body_mocapid[body_id]
+
+    viewer = launch_passive(model, data)
+    dt = model.opt.timestep
+
+    # show the initial frame once
+    viewer.sync()
+    input("Scene is up — press Enter to start the circular motion…")
+
+    start_wall = time.time()
+
+    ndx = 0
+    while viewer.is_running() and (ndx < len(items)):
+        t = data.time
+
+        # position on circle
+        x = items[ndx]['x']
+        y = items[ndx]['y']
+        psi = items[ndx]['theta']
+
+        radius = 10.0
+        omega = 1.0
+        # position on circle
+        x = radius * math.cos(omega * t)
+        y = radius * math.sin(omega * t)
+        psi = omega * t  # + math.pi / 2
+
+        ndx += 1
+
+        print('x=', x, 'y=', y, 'theta=', psi)
+
+        data.ctrl[0] = psi
+        data.ctrl[1] = np.
+        # data.ctrl[2] = psi
+
+        # data.mocap_quat[mocap_id] = (qw, 0.0, 0.0, qz)
+
+        mujoco.mj_step(model, data)
+        viewer.sync()
+
+        # print kinematics
+        pos = data.qpos[0:2]
+        vel = data.qvel[0:2]
+        acc = data.qacc[0:2]
+        print(
+            f"t={t:.3f} s | "
+            f"pos=({pos[0]:.3f}, {pos[1]:.3f}) m | "
+            f"vel=({vel[0]:.3f}, {vel[1]:.3f}) m/s | "
+            f"acc=({acc[0]:.3f}, {acc[1]:.3f}) m/s²"
+        )
+
+        # throttle to real time
+        elapsed = time.time() - start_wall
+        time.sleep(0.001)
+
+    print("Simulation done – close window to exit.")
+    while viewer.is_running():
+        time.sleep(0.1)
+    viewer.close()
+
+
+
 
 if __name__ == "__main__":
-    model, data = load_sim("pallet_bricks_column.xml")
-    watch_circular(model, data, radius=3.0, period=10.0, run_time=30.0)
+    model, data = load_sim("scene.xml")
+    trajectorypath = '../path-planning/trajectory.csv'
+    df = pd.read_csv(trajectorypath)
+    follow_trajectory(model, data, df)

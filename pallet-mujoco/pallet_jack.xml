@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<!-- <mujoco model="pallet_jack"> -->
+
+  <compiler angle="degree" inertiafromgeom="true"/>
+  <option gravity="0 0 -9.81"/>
+
+  <asset>
+    <material name="default_mat"
+              rgba="0.7 0.7 0.9 1"
+              specular="0.2"
+              shininess="0.3"/>
+  </asset>
+
+  <worldbody>
+    <body name="pallet_jack" pos="0 0 0">
+      <!-- base body： X=0.25, Y=0.54, Z=0.63 -->
+      <geom name="base"
+            type="box"
+            size="0.125 0.27 0.315"
+            pos="0 0 0.315"
+            material="default_mat"/>
+      <!-- <joint name="steer" type="hinge" axis="0 0 1" pos="0 0 0"/> -->
+      
+      <body name="forks" pos="0 0 0"> 
+      <!-- <joint name="lift" type="slide" axis="0 0 1" pos="0 0 0"/> -->
+      <!-- xpos: 0.125 + 0.575 = 0.7 -->
+      <!-- ypos: 0.27 - 0.08 = 0.19 -->
+      <!-- zpos: 0.315 - 0.315 + 0.04 = 0.04 -->
+        <geom name="fork_left"
+            type="box"
+            size="0.575 0.08 0.04"
+            pos="0.7 0.19 0.04"
+            material="default_mat"/>
+
+        <geom name="fork_right"
+            type="box"
+            size="0.575 0.08 0.04"
+            pos="0.7 -0.19 0.04"
+            material="default_mat"/>
+      </body>
+    </body>
+  </worldbody>
+  <!-- <actuator> 
+    <position joint="lift" ctrlrange="0 0.1" kp="1000" ctrllimited="true"/> 
+    <position joint="steer" ctrlrange="-1.0 1.0" kp="200" ctrllimited="true"/> 
+  </actuator>  -->
+
+<!-- </mujoco> -->
