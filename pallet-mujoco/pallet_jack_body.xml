@@ -6,9 +6,10 @@
   <body name="jack_body" pos="0 0 0"/>
     <geom name="base" type="box" size="0.125 0.27 0.315" pos="0 0 0.315" material="jack_mat"/>
         
-    <body name="forks" pos="0 0 0">
-      <geom name="fork_left" type="box" size="0.575 0.08 0.07" pos="0.7 0.19 0.04" material="jack_mat"/>
-      <geom name="fork_right" type="box" size="0.575 0.08 0.07" pos="0.7 -0.19 0.04" material="jack_mat"/>
+    <body name="forks" pos="0 0 0.01">
+      <!-- <joint name="lift" type="slide" axis="0 0 2" range="0 0.2"/> -->
+      <geom name="fork_left" type="box" size="0.575 0.08 0.04" pos="0.7 0.19 0.04" material="jack_mat"/>
+      <geom name="fork_right" type="box" size="0.575 0.08 0.04" pos="0.7 -0.19 0.04" material="jack_mat"/>
     </body>
   </body>
 </body>
