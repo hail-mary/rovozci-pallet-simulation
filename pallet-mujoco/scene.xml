@@ -50,7 +50,8 @@
   </worldbody>
 
   <actuator>
-    <position joint="drive" ctrlrange="-5 5"   kp="2000"/>
+    <position joint="drive_x" ctrlrange="-10 10"   kp="2000"/>
+    <position joint="drive_y" ctrlrange="-10 10"   kp="2000"/>
     <position joint="steer" ctrlrange="-45 45" kp="200"/>
     <!-- <position joint="lift" ctrlrange="0 0.2"   kp="5000"/> -->
   </actuator>
