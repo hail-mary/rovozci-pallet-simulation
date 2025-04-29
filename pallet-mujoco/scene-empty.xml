@@ -6,7 +6,7 @@
 
   <default>
     <joint armature="1" damping="1" limited="true"/>
-    <geom conaffinity="1" condim="3" density="1000" friction="1 0.5 0.5" margin="0.001"/>
+    <geom conaffinity="1" condim="3" density="100" friction="1 0.5 0.5" margin="0.001"/>
   </default>
   <asset>
     <material name="jack_mat" rgba="0.8 0.3 0.3 0.9" specular="0.2" shininess="0.3"/>
@@ -30,29 +30,14 @@
 
     <body name="pallet" pos="0.75 0 0.1" euler="0 0 90">
       <include file="pallet_body.xml"/>
-    </body>
-    
-    <!-- bricks -->  
-    <replicate count="5" offset="0 0 0.20">
-      <replicate count="4" offset="0 0.25 0">
-        <replicate count="4" offset="0.3 0 0">
-          <body name="bricks" pos="0.3 -0.375 0.25">
-            <freejoint/>
-            <body name="brick" pos="0 0 -0.03">
-              <geom type="box" size="0.15 0.125 0.10" density="700" material="brick_mat"/>
-            </body>
-          </body>
-        </replicate>
-      </replicate>
-    </replicate>
-
+    </body>    
   
   </worldbody>
 
   <actuator>
-    <position joint="drive_x" ctrlrange="-10 10"   kp="20000"/>
-    <position joint="drive_y" ctrlrange="-10 10"   kp="20000"/>
-    <position joint="steer" ctrlrange="-45 45" kp="20000"/>
+    <position joint="drive_x" ctrlrange="-10 10"   kp="2000"/>
+    <position joint="drive_y" ctrlrange="-10 10"   kp="2000"/>
+    <position joint="steer" ctrlrange="-45 45" kp="200"/>
     <!-- <position joint="lift" ctrlrange="0 0.2"   kp="5000"/> -->
   </actuator>
 
