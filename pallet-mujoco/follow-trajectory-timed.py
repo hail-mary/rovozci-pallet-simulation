@@ -93,7 +93,7 @@ def follow_trajectory(
         # Send to actuators
         data.ctrl[0] = float(row['x'])
         data.ctrl[1] = float(row['y'])
-        data.ctrl[2] = float(row['psi'])
+        data.ctrl[2] = 0 # float(row['psi'])
         # Step simulation
         mujoco.mj_step(model, data)
         viewer.sync()
