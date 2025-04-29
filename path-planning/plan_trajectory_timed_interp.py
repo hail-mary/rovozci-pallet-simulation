@@ -40,40 +40,31 @@ def plan_velocity_profile(
     start_velocity: float,
     end_velocity: float,
     step_size: float,
-    max_velocity: float,
+    max_velocity: float,  # unused when interp=False
     accel: float,
     interp: bool = False,
 ) -> List[float]:
     """
-    Plan velocities: either accel profile or linear interp if interp=True.
+    Plan velocities: either accel/decel at max_accel between waypoints, or linear interp if interp=True.
+    Acceleration per time remains constant at +accel or -accel.
     """
     if path_length < 2:
-        return [0.0] * path_length
+        return [start_velocity] * path_length
     if interp:
         return np.linspace(start_velocity, end_velocity, path_length).tolist()
-    start_v = min(start_velocity, max_velocity)
-    end_v = min(end_velocity, max_velocity)
-    min_v = 0.1
-    if abs(start_v) < min_v:
-        start_v = min_v
-    d_acc = (max_velocity - start_v) / accel
-    d_dec = (max_velocity - end_v) / accel
-    n_acc = round(d_acc / step_size)
-    n_dec = round(d_dec / step_size)
-    if n_acc + n_dec > path_length:
-        return np.linspace(start_v, end_v, path_length).tolist()
-    vel = [0.0] * path_length
-    for i in range(n_acc):
-        if i < path_length:
-            vel[i] = start_v + accel * (i + 1) * step_size
-    for i in range(n_acc, path_length - n_dec):
-        vel[i] = max_velocity
-    for i in range(path_length - n_dec, path_length):
-        vel[i] = max_velocity - accel * (i - (path_length - n_dec)) * step_size
-    vel[-1] = end_v
-    return vel
-
-
+    # Determine acceleration sign (positive or negative)
+    a = accel if end_velocity >= start_velocity else -accel
+    velocities: List[float] = []
+    for i in range(path_length):
+        # distance traveled along segment
+        s = step_size * i
+        # v^2 = v0^2 + 2*a*s
+        v2 = start_velocity**2 + 2 * a * s
+        v = math.sqrt(v2) if v2 > 0 else 0.0
+        velocities.append(v)
+    # overwrite final value to exactly match target
+    velocities[-1] = end_velocity
+    return velocities
 def plan_route(
     waypoints: List[Waypoint],
     step_size: float,
@@ -151,40 +142,61 @@ def compute_path_length(x: List[float], y: List[float]) -> float:
 
 
 def sample_trajectory_in_time(
-    x: List[float], y: List[float], theta: List[float],
-    velocity: List[float], wp_dist: List[float], delta_time: float
+    x: List[float],
+    y: List[float],
+    theta: List[float],
+    velocity: List[float],
+    wp_dist: List[float],
+    delta_time: float,
+    max_accel: float
 ) -> List[Dict[str, float]]:
-    """Resample trajectory at equal time intervals."""
+    """Resample trajectory at equal time intervals and set acceleration = ±max_accel."""
+    # distances & cumulative distance
     dists = [0.0] + [
         math.hypot(x[i] - x[i-1], y[i] - y[i-1])
         for i in range(1, len(x))
     ]
     cum_dist = np.cumsum(dists)
+    # times along trajectory
     times = np.cumsum([
         d / v if v > 0 else 0.0
         for d, v in zip(dists, velocity)
     ])
     total_t = times[-1] if len(times) > 0 else 0.0
-    t_samples = np.arange(0.0, total_t, delta_time).tolist()
+    t_samples = list(np.arange(0.0, total_t, delta_time))
     if not t_samples or t_samples[-1] < total_t:
         t_samples.append(total_t)
+    # interpolate state
     xs = np.interp(t_samples, times, x)
     ys = np.interp(t_samples, times, y)
     psis = np.interp(t_samples, times, theta)
     vs = np.interp(t_samples, times, velocity)
-    vx = vs * np.cos(psis); vy = vs * np.sin(psis)
-    acc = [0.0] + [(vs[i] - vs[i-1]) / delta_time
-                   for i in range(1, len(vs))]
+    # compute distance-from-start
     dist_start = np.interp(t_samples, times, cum_dist)
+    # build rows
     rows: List[Dict[str, float]] = []
+    prev_v = vs[0]
     for i, t in enumerate(t_samples):
+        v = vs[i]
+        # determine commanded acceleration
+        if v > prev_v + 1e-8:
+            a_cmd = max_accel
+        elif v < prev_v - 1e-8:
+            a_cmd = -max_accel
+        else:
+            a_cmd = 0.0
+        prev_v = v
         ds = float(dist_start[i])
         idx = __import__('bisect').bisect_right(wp_dist, ds) - 1
         rows.append({
-            'time': float(t), 'x': float(xs[i]), 'y': float(ys[i]),
-            'psi': float(psis[i]), 'velocity_x': float(vx[i]),
-            'velocity_y': float(vy[i]), 'velocity': float(vs[i]),
-            'acceleration': float(acc[i]),
+            'time': float(t),
+            'x': float(xs[i]),
+            'y': float(ys[i]),
+            'psi': float(psis[i]),
+            'velocity_x': float(v * math.cos(psis[i])),
+            'velocity_y': float(v * math.sin(psis[i])),
+            'velocity': float(v),
+            'acceleration': a_cmd,
             'distance_from_start': ds,
             'distance_from_last_waypoint': ds - wp_dist[max(idx, 0)],
         })
@@ -256,7 +268,7 @@ def main() -> None:
     )
 
     if args.timestep is not None:
-        rows = sample_trajectory_in_time(x, y, th, vel, wp_dist, args.timestep)
+        rows = sample_trajectory_in_time(x, y, th, vel, wp_dist, args.timestep, args.max_accel)
         if args.out:
             with open(args.out, 'w', newline='') as f:
                 writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
