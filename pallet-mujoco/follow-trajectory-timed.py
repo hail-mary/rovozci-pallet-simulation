@@ -50,11 +50,34 @@ def wait_key() -> None:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
 
+def warmup_simulation(
+    model: MjModel,
+    data: MjData,
+    steps: int,
+    timestep: float
+) -> None:
+    """
+    Run a warm-up period to let contacts settle under gravity.
+
+    Args:
+        model: MuJoCo model.
+        data: MuJoCo data.
+        steps: Number of zero-control steps to run.
+        timestep: Simulation step size in seconds.
+    """
+    model.opt.timestep = timestep
+    # zero all controls during warm-up
+    data.ctrl[:] = 0.0
+    for _ in range(steps):
+        mujoco.mj_step(model, data)
+
+
 def follow_trajectory(
     model: MjModel,
     data: MjData,
     df: pd.DataFrame,
-    timestep: float
+    timestep: float,
+    warmup_steps: int = 200
 ) -> None:
     """
     Drive the mocap pallet along the trajectory from the table.
@@ -75,6 +98,10 @@ def follow_trajectory(
     # Override internal timestep
     model.opt.timestep = timestep
     viewer.sync()
+
+    warmup_simulation(model, data, warmup_steps, timestep)
+    viewer.sync()
+
     print('Scene loaded. Press any key to start playback...')
     wait_key()
 
@@ -91,8 +118,8 @@ def follow_trajectory(
         row = df.iloc[idx]
         print(row)
         # Send to actuators
-        data.ctrl[0] = 0 # float(row['x'])
-        data.ctrl[1] = 0 #float(row['y'])
+        data.ctrl[0] = float(row['x'])
+        data.ctrl[1] = float(row['y'])
         data.ctrl[2] = float(row['psi'])
         # Step simulation
         mujoco.mj_step(model, data)
@@ -135,13 +162,19 @@ def main() -> None:
         default=0.05,
         help='Simulation step size in seconds (default: 0.05).'  
     )
+    parser.add_argument(
+        '--warmup',
+        type=int,
+        default=200,
+        help='Simulation warmup steps.'  
+    )
     args = parser.parse_args()
 
     # Load simulation and table
     model, data = load_sim(args.scene)
     df = pd.read_csv(args.table)
     # Playback
-    follow_trajectory(model, data, df, args.timestep)
+    follow_trajectory(model, data, df, args.timestep, args.warmup)
 
 
 if __name__ == '__main__':
