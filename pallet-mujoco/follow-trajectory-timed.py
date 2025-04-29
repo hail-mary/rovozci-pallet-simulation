@@ -91,9 +91,9 @@ def follow_trajectory(
         row = df.iloc[idx]
         print(row)
         # Send to actuators
-        data.ctrl[0] = float(row['x'])
-        data.ctrl[1] = float(row['y'])
-        data.ctrl[2] = 0 # float(row['psi'])
+        data.ctrl[0] = 0 # float(row['x'])
+        data.ctrl[1] = 0 #float(row['y'])
+        data.ctrl[2] = float(row['psi'])
         # Step simulation
         mujoco.mj_step(model, data)
         viewer.sync()
