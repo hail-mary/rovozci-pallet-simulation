@@ -133,6 +133,7 @@ def follow_trajectory(
     start_wall = time.time()
     step_index = 0
     total_steps = 0
+    active = True
     while viewer.is_running():
         sim_start = time.time()
         t = data.time
@@ -141,11 +142,16 @@ def follow_trajectory(
         if idx >= len(df):
             break
         row = df.iloc[idx]
-        print(row)
+        print("Input data:", row.to_dict())
+
+        #state_vector = (data.time, data.qpos, data.qvel, data.act)
+        #print("State vector:", data.qpos.shape, data.qvel.shape, data.act.shape)
+
         # Send to actuators
-        data.ctrl[0] = float(row['x'])
-        data.ctrl[1] = float(row['y'])
-        data.ctrl[2] = float(row['psi'])
+        if active:
+            data.ctrl[0] = float(row['x'])
+            data.ctrl[1] = float(row['y'])
+            data.ctrl[2] = float(row['psi'])
         # Step simulation
         mujoco.mj_step(model, data)
         viewer.sync()
