@@ -6,7 +6,7 @@
 
   <default>
     <joint armature="1" damping="1" limited="true"/>
-    <geom conaffinity="1" condim="3" density="100" friction="1 0.5 0.5" margin="0.001"/>
+    <geom conaffinity="1" condim="3" density="5000" friction="1 0.5 0.5" margin="0.001"/>
   </default>
   <asset>
     <material name="jack_mat" rgba="0.8 0.3 0.3 0.9" specular="0.2" shininess="0.3"/>
@@ -23,12 +23,12 @@
     <light cutoff="100" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3" specular=".1 .1 .1"/>
     <geom conaffinity="1" condim="3" material="MatPlane" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="40 40 40" type="plane"/>
 
-    <!-- 外部ファイルをインクルード -->
+    <!-- include external files -->
     <body name="pallet_jack" pos="0 0 0">
       <include file="pallet_jack_body.xml"/>
     </body>
 
-    <body name="pallet" pos="0.75 0 0.1" euler="0 0 90">
+    <body name="pallet" pos="0.75 0 0.15" euler="0 0 90">
       <include file="pallet_body.xml"/>
     </body>
     
@@ -36,7 +36,7 @@
     <replicate count="5" offset="0 0 0.20">
       <replicate count="4" offset="0 0.25 0">
         <replicate count="4" offset="0.3 0 0">
-          <body name="bricks" pos="0.3 -0.375 0.25">
+          <body name="bricks" pos="0.3 -0.375 0.27">
             <freejoint/>
             <body name="brick" pos="0 0 0">
               <geom type="box" size="0.15 0.125 0.10" density="700" material="brick_mat"/>
@@ -50,9 +50,9 @@
   </worldbody>
 
   <actuator>
-    <position joint="drive_x" ctrlrange="-10 10"   kp="2000"/>
-    <position joint="drive_y" ctrlrange="-10 10"   kp="2000"/>
-    <position joint="steer" ctrlrange="-45 45" kp="200"/>
+    <position joint="drive_x" ctrlrange="-10 10"   kp="20000"/>
+    <position joint="drive_y" ctrlrange="-10 10"   kp="20000"/>
+    <position joint="steer" ctrlrange="-45 45" kp="2000"/>
     <!-- <position joint="lift" ctrlrange="0 0.2"   kp="5000"/> -->
   </actuator>
 
