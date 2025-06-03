@@ -45,6 +45,13 @@ def wait_key() -> None:
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
+# state variables
+acceleration = 0
+velocity = 0
+last_x = 0
+last_y = 0
+last_psi = 0
+last_t = None
 
 def watch_circular(
     model: MjModel,
@@ -57,6 +64,9 @@ def watch_circular(
     Move the mocap pallet around a circle, orienting it tangentially,
     and log its kinematics.
     """
+
+    global last_t, last_psi, last_x, last_y
+
     # find body and mocap slot
     body_id = mj_name2id(model, mjtObj.mjOBJ_BODY, "pallet")
     mocap_id = model.body_mocapid[body_id]
@@ -64,6 +74,28 @@ def watch_circular(
     omega = 2 * math.pi / period
     viewer = launch_passive(model, data)
     dt = model.opt.timestep
+
+    # ovwerride the computation with your scenario
+    def state_function_circular(t: float, dt: float) -> Tuple[float, float, float]:
+        x = radius * math.cos(omega * t)
+        y = radius * math.sin(omega * t)
+        psi = omega * t  # + math.pi / 2
+        return x, y, psi
+
+    def state_function_accel(t: float, dt: float, accel: float) -> Tuple[float, float, float]:
+        global velocity, acceleration, last_x, last_y, last_psi
+        velocity += dt * accel
+        acceleration = accel
+        x = last_x + velocity * dt
+        y = last_y
+        psi = last_psi
+        return x, y, psi
+
+    def state_function(t: float, dt: float) -> Tuple[float, float, float]:
+        #return state_function_circular(t)
+        return state_function_accel(t, dt, 0.3)
+    
+    # end override
 
     # show the initial frame once
     viewer.sync()
@@ -73,14 +105,16 @@ def watch_circular(
 
     while viewer.is_running() and (time.time() - start_wall) < run_time:
         t = data.time
+        if last_t is None:
+            last_t = t
+        dtt = t - last_t
 
         # position on circle
-        x = radius * math.cos(omega * t)
-        y = radius * math.sin(omega * t)
-        # data.mocap_pos[mocap_id] = (x, y, 0.05)
+        
+        x, y, psi = state_function(t, dt)
+        last_x, last_y, last_psi = x, y, psi
+        print('t:', t, 'x:', x, 'y:', y, 'psi:', psi, 'vel:', velocity, 'acc:', acceleration, 'dt:', dt, 'dtt:', dtt)
 
-        # orientation tangent to circle: yaw = ω·t + π/2
-        psi = omega * t  # + math.pi / 2
         qw = math.cos(psi / 2)
         qz = math.sin(psi / 2)
 
@@ -97,12 +131,14 @@ def watch_circular(
         pos = data.qpos[0:2]
         vel = data.qvel[0:2]
         acc = data.qacc[0:2]
+        """
         print(
             f"t={t:.3f} s | "
             f"pos=({pos[0]:.3f}, {pos[1]:.3f}) m | "
             f"vel=({vel[0]:.3f}, {vel[1]:.3f}) m/s | "
             f"acc=({acc[0]:.3f}, {acc[1]:.3f}) m/s²"
         )
+        """
 
         # throttle to real time
         elapsed = time.time() - start_wall

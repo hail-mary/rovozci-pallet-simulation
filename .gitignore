@@ -2,4 +2,5 @@ target/
 .vscode/
 *.pyc
 venv/
+extracted/
 

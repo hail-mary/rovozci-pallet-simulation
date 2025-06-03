@@ -149,8 +149,8 @@ def follow_trajectory(
 
         # Send to actuators
         if active:
-            data.ctrl[0] = float(row['x'])
-            data.ctrl[1] = float(row['y'])
+            data.ctrl[0] = float(row['velocity_x'])
+            data.ctrl[1] = float(row['velocity_y'])
             data.ctrl[2] = float(row['psi'])
         # Step simulation
         mujoco.mj_step(model, data)
@@ -190,8 +190,8 @@ def main() -> None:
     parser.add_argument(
         '--timestep',
         type=float,
-        default=0.05,
-        help='Simulation step size in seconds (default: 0.05).'  
+        default=0.002,
+        help='Simulation step size in seconds (mujoco default: 0.002).'  
     )
     parser.add_argument(
         '--warmup',
