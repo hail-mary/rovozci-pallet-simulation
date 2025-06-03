@@ -53,8 +53,8 @@
 
   <actuator>
     
-    <velocity joint="drive_x" ctrlrange="-500 500" ctrllimited="true" kv="3000"/>
-    <velocity joint="drive_y" ctrlrange="-500 500" ctrllimited="true" kv="3000"/>
+    <velocity joint="drive_x" ctrlrange="-1 1" ctrllimited="true" kv="3000"/>
+    <velocity joint="drive_y" ctrlrange="-1 1" ctrllimited="true" kv="3000"/>
     <velocity joint="steer" ctrlrange="-90 90" kv="3000"/>
   </actuator>
 

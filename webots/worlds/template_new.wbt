@@ -17,8 +17,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.10190135351952778 0.19795881904722618 0.9748991845890095 0.9716413260324711
-  position -7.760651596670081 -3.8649452128178035 1.564204252633489
+  orientation -0.16808106075590407 0.2428632071980944 0.9553879942749047 1.253843867377102
+  position -6.534423945478727 -2.9122048945535095 1.8208906762170216
 }
 TexturedBackground {
 }
@@ -35,11 +35,11 @@ DEF FLOOR RectangleArena {
   }
 }
 DEF WOZEYK Robot {
-  translation -5 0 0.374459
+  translation -4.98 0.48 0.374459
   children [
     WoodenPallet {
-      translation -0.26 0 -0.3
-      rotation 0 0 -0.9999999999999999 0
+      translation -0.4 0 -0.3
+      rotation 0 0 -1 0
       size 1.2 1 0.14
       mass 20
       locked TRUE
@@ -67,7 +67,7 @@ DEF WOZEYK Robot {
                 }
               ]
               endPoint Solid {
-                translation 1.3137560434584028e-05 0.0025173293105191785 0.04419839346827817
+                translation -0.109956 -0.00780847 0.0439559
                 rotation 0.2760850589790432 -0.5563853353107636 0.783717040046768 0.0037806865686501336
                 children [
                   Pose {

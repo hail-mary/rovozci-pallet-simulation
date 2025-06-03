@@ -78,7 +78,7 @@ class PurePursuitController:
         forward_velocity = 1.0
         
         # Calculate lateral velocity (for side movement)
-        lateral_velocity = 0.0  # Pure pursuit typically doesn't use lateral movement
+        lateral_velocity = 1.0  # Pure pursuit typically doesn't use lateral movement
         
         return forward_velocity, lateral_velocity, steering_angle
 
@@ -115,9 +115,9 @@ def main():
             vx, vy, steer = controller.compute_control(current_x, current_y, current_theta)
             
             # Apply control inputs
-            data.ctrl[0] = vx  * 500# drive_x
-            data.ctrl[1] = vy  * 500# drive_y
-            data.ctrl[2] = steer *10 # steer
+            data.ctrl[0] = vx  # drive_x
+            data.ctrl[1] = vy  # drive_y
+            data.ctrl[2] = steer # steer
             
             # Step simulation
             mujoco.mj_step(model, data)

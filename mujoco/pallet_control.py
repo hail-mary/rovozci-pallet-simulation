@@ -12,7 +12,7 @@ def get_hinge_joint_angle(model, data, joint_name):
 
 def main():
     # Load the model
-    model = mujoco.MjModel.from_xml_path("pallet-mujoco/pallet_bricks_column.xml")
+    model = mujoco.MjModel.from_xml_path("scene.xml")
     data = mujoco.MjData(model)
 
     # Control parameters
@@ -28,9 +28,9 @@ def main():
         while viewer.is_running():
             # get current pallet position and heading
 
-            current_x = data.joint("pallet_slide_x").qpos
-            current_y = data.joint("pallet_slide_y").qpos
-            current_phi = data.joint("pallet_hinge_z").qpos
+            current_x = data.joint("drive_x").qpos
+            current_y = data.joint("drive_y").qpos
+            current_phi = data.joint("steer").qpos
 
             heading_vec = np.array([np.cos(current_phi), np.sin(current_phi)])
 
@@ -56,7 +56,7 @@ def main():
             data.ctrl[:] = control
 
             # print(f"qpos: {data.qpos}, qvel: {data.qvel}")
-            print(data.joint("pallet_hinge_z").qpos, data.joint("pallet_slide_x").qpos, data.joint("pallet_slide_y").qpos)
+            print(data.joint("steer").qpos, data.joint("drive_x").qpos, data.joint("drive_y").qpos)
 
             # Step the simulation
             mujoco.mj_step(model, data)
