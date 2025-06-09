@@ -2,25 +2,20 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import glob
-import numpy as np
-plt.rcParams['font.size'] = 20
+
+plt.rcParams['font.size'] = 24
 plt.rcParams['font.family'] = 'Times New Roman'
 # Set the directory containing CSV files
 acceleration_dir = "Acceleration"
 
 # Get all CSV files in the directory
-csv_files = glob.glob(os.path.join(acceleration_dir, "half_*.csv"))
-
-# Set font sizes
-# plt.rcParams['font.size'] = 15
-# plt.rcParams['axes.titlesize'] = 19
-# plt.rcParams['axes.labelsize'] = 17
-# plt.rcParams['xtick.labelsize'] = 15
-# plt.rcParams['ytick.labelsize'] = 15
-# plt.rcParams['legend.fontsize'] = 13
+csv_files = glob.glob(os.path.join(acceleration_dir, "full_forward.csv"))
+axis = 'ay'
+# Define the filter window size
+window_size = 10
 
 # Create a figure with subplots
-plt.figure(figsize=(15, 10))
+plt.figure(figsize=(14, 8))
 
 # Plot each file
 for file_path in csv_files:
@@ -30,10 +25,14 @@ for file_path in csv_files:
         
         # Convert DataFrame columns to numpy arrays
         time = df['time'].to_numpy()
-        total_acc = df['ay'].to_numpy()
+        total_acc = df[axis].to_numpy()
         
         # Get the filename without extension for the legend
         file_name = os.path.basename(file_path).replace('.csv', '')
+        
+        # Apply moving average filter
+        # time = time[window_size//2:-window_size//2+1]
+        # total_acc = np.convolve(total_acc, np.ones(window_size)/window_size, mode='valid')
         
         # Plot time vs total acceleration
         plt.plot(time, total_acc, label=file_name)
@@ -42,15 +41,21 @@ for file_path in csv_files:
 
 # Customize the plot
 plt.xlabel('Time (s)')
-plt.ylabel('y Acceleration (m/s²)')
+if axis == 'ax':
+    plt.ylabel('Lateral Acceleration (m/s²)')
+elif axis == 'ay':
+    plt.ylabel('Forward Acceleration (m/s²)')
+elif axis == 'az':
+    plt.ylabel('Vertical Acceleration (m/s²)')
 # plt.title('Time vs x Acceleration for Different Scenarios')
 plt.grid(True)
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+# plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 
 # Save the plot
-plt.show()
-# plt.savefig('x_fullacceleration_plot.png', bbox_inches='tight', dpi=300)
+# plt.show()
+file_name = 'full_forward_raw_acceleration'
+plt.savefig(file_name + '.pdf')
 # plt.close()
 
-print("Plot has been saved as 'acceleration_plot.png'") 
+print("Plot has been saved as '" + file_name + ".pdf'") 

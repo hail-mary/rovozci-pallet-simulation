@@ -1,5 +1,11 @@
 # rovozci pallet simulation
+## Mujoco
+For mujoco simulation, open the `mujoco` folder. The main xml file is `scene.xml`, and there are some sample python control scripts.
+## Webots
+`webots` folder contains necessary files for webots simulation. The simulation setup is mainly configured in `worlds` folder. To implement a controller, put the control script into the `controllers` folder.
 
+## Plotting acceleration
+`Acceleration` folder contains the raw data collected by using Physic Toolbox app. Note that except from `forward_emergency_max.csv` and `turn90plus_max`, 'ay' column corresponds to the forward acceleration. To plot the acceleration, execute `plot_acceleration.py`. It requires pandas and matplotlib. 
 ## pallet physical properties
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
